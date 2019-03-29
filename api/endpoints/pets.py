@@ -15,11 +15,11 @@ class PetsHandler(Resource):
         p = Pets()
         return p.select(id=args.id, name=args.name, sex=args.sex, color=args.color, status=args.status, originator=args.originator)
     
-    @ns.doc(body=api_models.post)
+    @ns.doc(body=api_models.post, parser=api_models.post)
     @ns.marshal_with(api_models.get_entry, code=201)
     def post(self):
         """Insert pet into pets database."""
-        args = api_models.get.parse_args()
+        args = api_models.post.parse_args()
         p=Pets()
         new_id = p.insert(args)
         return p.select(id=new_id)

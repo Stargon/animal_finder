@@ -3,22 +3,22 @@ from namespaces.pets import ns
 
 pet_defintion = {
     'id': fields.Integer(
-        required=True, description='Database ID', example=3
+        required=True, description='Database ID', example=3, location='form'
     ),
     'name': fields.String(
-        required=False, description="Pet Name", example='Root'
+        required=False, description="Pet Name", example='Root', location='form'
     ),
     'sex': fields.String(
-        required=False, description='Sex', example='female'
+        required=False, description='Sex', example='female', location='form'
     ),
     'color': fields.Integer(
-        required=False, description='Color ID from color table', example=10
+        required=False, description='Color ID from color table', example=10, location='form'
     ),
     'status': fields.Integer(
-        required=False, description='Status ID from status table', example=2
+        required=False, description='Status ID from status table', example=2, location='form'
     ),
     'originator': fields.Integer(
-        required=False, description='Orignator ID from originator table', example=4
+        required=False, description='Orignator ID from originator table', example=4, location='form'
     )
 } 
 
@@ -36,6 +36,11 @@ get.add_argument('color', type=int, required=False, help='Color', location='args
 get.add_argument('status', type=int, required=False, help='Found Status', location='args')
 get.add_argument('originator', type=int, required=False, help='Originator', location='args')
 
-post = get.copy()
-post.remove_argument('id')
-
+# post = get.copy()
+# post.remove_argument('id')
+post = ns.parser()
+post.add_argument('name', type=str, required=False, help='Name, if known', location='form')
+post.add_argument('sex', type=str, required=False, help='Sex', location='form')
+post.add_argument('color', type=int, required=False, help='Color', location='form')
+post.add_argument('status', type=int, required=False, help='Found Status', location='form')
+post.add_argument('originator', type=int, required=False, help='Originator', location='form')
