@@ -9,7 +9,7 @@ pet_defintion = {
         required=False, description="Pet Name", example='Root', location='form'
     ),
     'sex': fields.String(
-        required=False, description='Sex', example='female', location='form'
+        required=False, description='Sex', example='f', location='form'
     ),
     'color': fields.Integer(
         required=False, description='Color ID from color table', example=10, location='form'
@@ -22,10 +22,18 @@ pet_defintion = {
     )
 } 
 
+delete_definition = {
+    'id': fields.Integer(),
+    'message': fields.String()
+}
+
+pet = ns.model('pet', pet_defintion)
+pet_delete = ns.model('pet_delete', delete_definition)
+
 get_entry = ns.model('get_entry', pet_defintion)
 # get_nested = ns.model('get_nested', {'pets': fields.List(fields.Nested(get_entry))})
-get_nested = ns.model('get_nested', {
-    'pets': fields.List(fields.Nested(get_entry)),
+pet_list = ns.model('pet_list', {
+    'pet': fields.List(fields.Nested(pet)),
 })
 
 get = ns.parser()

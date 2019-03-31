@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS `animal`;
 CREATE TABLE `animal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bread` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `breed` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `type` (`type`,`bread`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

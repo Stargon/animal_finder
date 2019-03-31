@@ -1,4 +1,4 @@
-import pymysql
+from classes.mysql_wrapper import mysql_connection
 
 class Pets(object):
     def select(self, id=None, name=None, sex=None, color=None, status=None, originator=None):
@@ -11,11 +11,11 @@ class Pets(object):
                 if set_where is False:
                     query += " WHERE "
                 query += "{0} = %({0})s,".format(key)
-        
+        # query = self.parse_where_clase(query)
         if query[-1] == ',':
             query = query[:-1]
         
-        cnx = pymysql.connect(host='127.0.0.1',user='root',db='finder', cursorclass=pymysql.cursors.DictCursor)
+        cnx = mysql_connection()
         with cnx.cursor() as cursor:
             cursor.execute(query, params)
             result = cursor.fetchall()
@@ -44,7 +44,7 @@ class Pets(object):
 
         query += ")"
 
-        cnx = pymysql.connect(host='127.0.0.1',user='root',db='finder', cursorclass=pymysql.cursors.DictCursor)
+        cnx = mysql_connection()
         with cnx.cursor() as cursor:
             cnx.begin()
             try:
@@ -57,3 +57,18 @@ class Pets(object):
                 raise
         
         return new_id
+    
+    def delete(self, id):
+        query = "DELETE FROM pets WHERE id = %(id)s"
+
+        cnx = mysql_connection()
+        try:
+            with cnx.cursor() as cursor:
+                cursor.execute(query, {'id': id})
+                cnx.commit()
+                return "Successfully deleted: {0}".format(id)
+        except:
+            cnx.rollback()
+            raise
+
+        
